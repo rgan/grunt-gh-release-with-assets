@@ -27,6 +27,8 @@ module.exports = function Releaser() {
             } catch (ex) {
                 errors.push("assetfilepath is not readable");
             }
+            options.prerelease = options.prerelease ? options.prerelease : false;
+            options.name = options.name ? options.name : options.tag;
             return errors;
         },
 
@@ -37,10 +39,10 @@ module.exports = function Releaser() {
             }
             var params = {
                 "tag_name": options.tag, // tag should exist
-                "name": options.name ? options.name : options.tag,
+                "name": options.name,
                 "body": options.description,
                 "draft": false,
-                "prerelease": false
+                "prerelease": options.prerelease
             };
             var octo = new Octokat({token: options.token});
             var contents = fs.readFileSync(options.assetfilepath);

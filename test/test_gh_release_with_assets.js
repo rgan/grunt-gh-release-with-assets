@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var Octokat = require('octokat');
-var Releaser = require('./gh_release_with_assets.js');
+var Releaser = require('../tasks/lib/gh_release_with_assets.js');
 
 describe('releaser', function() {
 
@@ -42,6 +42,30 @@ describe('releaser', function() {
         expect(errors).to.include("assetfilepath is not readable");
     });
 
+    it('should default prerelease to false', function() {
+        options = {}
+        var errors = releaser_instance.validate(options);
+        expect(options.prerelease).to.be.false;
+    });
+
+    it('should set prerelease to as specified', function() {
+        options = {prerelease: true}
+        var errors = releaser_instance.validate(options);
+        expect(options.prerelease).to.be.true;
+    });
+
+    it('should set name as specified', function() {
+        options = {name: "test"}
+        var errors = releaser_instance.validate(options);
+        expect(options.name).to.equal("test");
+    });
+
+    it('should default name to tag', function() {
+        options = {tag: "1.0.1-test"}
+        var errors = releaser_instance.validate(options);
+        expect(options.name).to.equal("1.0.1-test");
+    });
+
     it('should not have error if everything is provided', function() {
         var errors = releaser_instance.validate(
             {tag: "tag", owner: "rgan", repo: "grunt-gh-release-with-assets",
@@ -65,7 +89,8 @@ describe('releaser', function() {
             repo: "grunt-gh-release-with-assets",
             token: process.env.GITHUB_TOKEN,
             tag: "0.0.1-test",
-            assetfilepath: "test/test.zip"
+            assetfilepath: "test/test.zip",
+            prerelease: true
         };
 
         new Releaser().release_with_asset(options, function(error) {
