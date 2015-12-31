@@ -15,20 +15,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-gh-release-with-assets');
 ```
 
-## The "githubAsset" task
 Run the task with ```grunt gh_release_with_asset```
-
-Github allows you to create releases on tags and attach a file.
-
-### Authentication
-export GITHUB_TOKEN=xxxx
 
 ### Options
 
 #### options.token
 Type: `String`
 
-The github token.
+The github token for authentication.
 
 #### options.repo
 Type: `String`
