@@ -42,14 +42,20 @@ describe('releaser', function() {
         expect(errors).to.include("assetfilepath is not readable");
     });
 
-    it('should default prerelease to false', function() {
-        options = {}
+    it('should default prerelease to true if tag is not a release version', function() {
+        options = {tag: "0.0.1-test"};
+        var errors = releaser_instance.validate(options);
+        expect(options.prerelease).to.be.true;
+    });
+
+    it('should default prerelease to false if tag is a release version', function() {
+        options = {tag: "0.0.1"};
         var errors = releaser_instance.validate(options);
         expect(options.prerelease).to.be.false;
     });
 
     it('should set prerelease to as specified', function() {
-        options = {prerelease: true}
+        options = {prerelease: true};
         var errors = releaser_instance.validate(options);
         expect(options.prerelease).to.be.true;
     });
@@ -83,7 +89,7 @@ describe('releaser', function() {
         expect((function() { new Releaser().release_with_asset(options)} )).to.throw(Error);
     });
 
-    it('should create a release with asset file', function(done) {
+    xit('should create a release with asset file', function(done) {
         options = {
             owner: "rgan",
             repo: "grunt-gh-release-with-assets",

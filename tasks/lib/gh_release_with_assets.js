@@ -27,7 +27,13 @@ module.exports = function Releaser() {
             } catch (ex) {
                 errors.push("assetfilepath is not readable");
             }
-            options.prerelease = options.prerelease ? options.prerelease : false;
+            if (options.tag && options.prerelease == undefined) {
+                if (options.tag.indexOf("-") > 0 ) {
+                    options.prerelease = true;
+                } else {
+                    options.prerelease = false;
+                }
+            }
             options.name = options.name ? options.name : options.tag;
             return errors;
         },
